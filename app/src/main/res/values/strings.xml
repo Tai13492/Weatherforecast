@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WeatherForecast</string>
+    <string name="weather"> Weather </string>
+    <string name="temperature"> Temperature </string>
+    <string name="countrycode"> Country code</string>
+    <string name = "city"> City </string>
+    <string name = "loading"> loading... </string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAK6XKWkWAQRh_f4N-tHNk9S-VXDgUo3hw</string>
+
+</resources>

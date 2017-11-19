@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.tai.weatherforecast.MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/snow" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/usertemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView5"
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_alignLeft="@+id/userclimate"
+            android:layout_alignStart="@+id/userclimate"
+            android:text="@string/loading"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="191dp"
+            tools:layout_editor_absoluteY="312dp"
+            tools:text="temperature" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_below="@+id/textView3"
+            android:layout_marginTop="44dp"
+            android:text="@string/temperature"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="68dp"
+            tools:layout_editor_absoluteY="312dp" />
+
+        <TextView
+            android:id="@+id/userclimate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView5"
+            android:layout_marginLeft="81dp"
+            android:layout_marginStart="81dp"
+            android:layout_toEndOf="@+id/textView6"
+            android:layout_toRightOf="@+id/textView6"
+            android:text="@string/loading"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="191dp"
+            tools:layout_editor_absoluteY="265dp"
+            tools:text="userclimate" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="59dp"
+            android:layout_marginStart="59dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/weather"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="41dp"
+            tools:layout_editor_absoluteY="223dp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView5"
+            android:layout_alignStart="@+id/textView5"
+            android:layout_below="@+id/textView5"
+            android:layout_marginTop="34dp"
+            android:textStyle="bold"
+            android:text="@string/countrycode" />
+
+        <TextView
+            android:id="@+id/usercountrycode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignLeft="@+id/usertemperature"
+            android:layout_alignStart="@+id/usertemperature"
+            android:text="@string/loading"
+            android:textStyle="bold"
+            tools:text="usercountrycode" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView6"
+            android:layout_alignStart="@+id/textView6"
+            android:layout_below="@+id/textView6"
+            android:layout_marginTop="27dp"
+            android:textStyle="bold"
+            android:text="@string/city" />
+
+        <TextView
+            android:id="@+id/usercity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_alignLeft="@+id/usercountrycode"
+            android:layout_alignStart="@+id/usercountrycode"
+            android:text="@string/loading"
+            android:textStyle="bold"
+            tools:text="usercity" />
+
+        <!-- <Button
+            android:id="@+id/changeBackGround"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rain"
+            android:layout_marginTop="71dp"
+            android:layout_toEndOf="@+id/usercity"
+            android:layout_toRightOf="@+id/usercity"
+            android:onClick="onclick"
+            android:text="Button" /> -->
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="270dp"
+        android:contentDescription="fitness"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativelayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/fitness" />
+
+</android.support.constraint.ConstraintLayout>
