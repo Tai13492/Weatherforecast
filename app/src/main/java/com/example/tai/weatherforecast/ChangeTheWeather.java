@@ -6,30 +6,38 @@ package com.example.tai.weatherforecast;
 
 public class ChangeTheWeather {
     String id;
-    public ChangeTheWeather(String id){
+    public ChangeTheWeather(String id) {
         this.id = id;
     }
-    public String idToWeather(){
-        String [] s = this.id.split("");
-        String weather = null;
-        switch(s[0]){
-            case "2": weather = "thunderstorm"; break;
-            case "3": weather = "rain"; break;
-            case "5": weather = "rain"; break;
-            case "6": weather = "snow"; break;
-            case "7": weather = "misty"; break;
-            case "8": if(s[2].equals("0")){
-                weather = "clear"; break;
-            }else{
-                weather = "cloudy"; break;
+    public String idToWeather() {
+        String first = id.substring(0, 1);
+        String second = id.substring(1, 2);
+        String third = id.substring(2);
+        String weather = "snow";
+        if (first.equals("2")) {
+            weather = "thunderstorm";
+        } else if (first.equals("3")) {
+            weather = "rain";
+        } else if (first.equals("5")) {
+            weather = "rain";
+        } else if (first.equals("6")) {
+            weather = "snow";
+        } else if (first.equals("7")) {
+            weather = "misty";
+        } else if (first.equals("8")) {
+            if (third.equals("0")) {
+                weather = "clear";
+            } else {
+                weather = "cloudy";
             }
-            case "9": if(s[1].equals("0")){
-                weather = "extreme"; break;
-            }else{
-                weather = "misty"; break;
+        } else if (first.equals("9")) {
+            if (second.equals("0")) {
+                weather = "extreme";
+            } else {
+                weather = "misty";
             }
-            default: weather = "cloudy"; break;
         }
         return weather;
     }
 }
+

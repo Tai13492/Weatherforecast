@@ -3,6 +3,7 @@ package com.example.tai.weatherforecast;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,32 +17,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Date;
 
-import static com.example.tai.weatherforecast.R.drawable.extreme;
 
 public class MainActivity extends AppCompatActivity {
     LocationManager locationManager;
     LocationListener locationListener;
     ChangeTheWeather changeTheWeather;
     double latitude, longitude;
-    TextView userclimate, usertemperature, usercountrycode, usercity;
-    RelativeLayout relativeLayout;
-    Button button;
-    ImageView imageView;
+    TextView climate,userclimate, usertemperature,usercity,windspeed,userwindspeed,humidity,userhumidity,userdate;
     DownloadTask task;
+    LinearLayout firstlinearLayout;
     JSONApiManipulation jsonApiManipulation;
-    String temp,weathermain, weatherdescription, city, country, firstpart, apiid,id,weatherid = null;
-    int count,testbackground = 0;
+    String temp,weathermain, weatherdescription, city, country, firstpart, apiid,id,weatherid,swindspeed,shumidity = null;
+    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+    int count=0;
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -54,13 +55,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         task = new DownloadTask();
+        firstlinearLayout = (LinearLayout) findViewById(R.id.firstlinearlayout);
+        climate = (TextView) findViewById(R.id.climate);
         userclimate = (TextView) findViewById(R.id.userclimate);
         usertemperature = (TextView) findViewById(R.id.usertemperature);
         usercity = (TextView) findViewById(R.id.usercity);
-        usercountrycode = (TextView) findViewById(R.id.usercountrycode);
-        //button = (Button) findViewById(R.id.changeBackGround);
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        userdate = (TextView) findViewById(R.id.userdate);
+        windspeed = (TextView) findViewById(R.id.windspeed);
+        userwindspeed = (TextView) findViewById(R.id.userwindspeed);
+        humidity = (TextView) findViewById(R.id.humidity);
+        userhumidity  = (TextView) findViewById(R.id.userhumidity);
     }
     protected void onStart(){
         super.onStart();
@@ -76,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("test coordinates", "" + latitude + " " + longitude);
                 if (count == 0) {
                     task.execute(firstpart + apiid);
+                    //task.execute("http://api.openweathermap.org/data/2.5/weather?q=Rochester&APPID=8a9cbc8db325a1ff4287792759faf76c");
+                    //task.execute("http://samples.openweathermap.org/data/2.5/weather?lat=53.1304&lon=106.3468appid=b1b15e88fa797225412429c1c50c122a1");
                     count++;
                 }
                 Log.i("test", "task executed");
@@ -143,13 +149,18 @@ public class MainActivity extends AppCompatActivity {
                 city = jsonApiManipulation.getJSONObject("name");
                 id = jsonApiManipulation.getJSONObjectFromJsonArray("weather","id");
                 country = jsonApiManipulation.getJSONObjectFromJsonObject("sys", "country");
+                swindspeed = jsonApiManipulation.getJSONObjectFromJsonObject("wind","speed");
+                shumidity = jsonApiManipulation.getJSONObjectFromJsonObject("main","humidity");
                 changeTheWeather = new ChangeTheWeather(id);
                 weatherid = changeTheWeather.idToWeather();
+                Log.i("weatherid",weatherid);
                 String celcius = JSONApiManipulation.kelvinToCelcius(temp) + " \u2103";
                 userclimate.setText(weatherdescription);
                 usertemperature.setText(celcius);
-                usercity.setText(city);
-                usercountrycode.setText(country);
+                usercity.setText(city + "," + country);
+                userwindspeed.setText(swindspeed + " m/s");
+                userhumidity.setText(shumidity + " %");
+                userdate.setText(currentDateTimeString);
                 changeBackground(weatherid);
                 Log.i("test", "test id " + id + "test method " + weatherid);
                 Log.i("test", "JSON finished successfully");
@@ -158,27 +169,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    /*public void onclick(View view){
-        switch (testbackground){
-            case 0 : imageView.setImageResource(R.drawable.extreme); testbackground++; break;
-            case 1: imageView.setImageResource(R.drawable.clear);testbackground++; break;
-            case 2: imageView.setImageResource(R.drawable.misty);testbackground++; break;
-            case 3: imageView.setImageResource(R.drawable.rain); testbackground++; break;
-            case 4: imageView.setImageResource(R.drawable.snow); testbackground++; break;
-            case 5: imageView.setImageResource(R.drawable.thunderstorm); testbackground++; break;
-            default: imageView.setImageResource(R.drawable.cloudy); break;
-        }
-    }*/
     public void changeBackground(String weatherid){
         switch (weatherid){
-            case "thunderstorm": imageView.setImageResource(R.drawable.thunderstorm); break;
-            case "rain": imageView.setImageResource(R.drawable.rain); break;
-            case "snow": imageView.setImageResource(R.drawable.snow); break;
-            case "misty": imageView.setImageResource(R.drawable.misty); break;
-            case "clear": imageView.setImageResource(R.drawable.clear);break;
-            case "cloudy": imageView.setImageResource(R.drawable.cloudy); break;
-            case "extreme": imageView.setImageResource(R.drawable.extreme); break;
-            default: imageView.setImageResource(R.drawable.cloudy); break;
+            case "thunderstorm": firstlinearLayout.setBackgroundResource(R.drawable.thunderstorm);setTextWhite(); break;
+            case "rain": firstlinearLayout.setBackgroundResource(R.drawable.rain);setTextWhite(); break;
+            case "snow": firstlinearLayout.setBackgroundResource(R.drawable.snow); break;
+            case "misty": firstlinearLayout.setBackgroundResource(R.drawable.misty);setTextWhite(); break;
+            case "clear": firstlinearLayout.setBackgroundResource(R.drawable.clear); break;
+            case "cloudy": firstlinearLayout.setBackgroundResource(R.drawable.cloudy); break;
+            case "extreme": firstlinearLayout.setBackgroundResource(R.drawable.extreme);setTextWhite(); break;
+            default: firstlinearLayout.setBackgroundResource(R.drawable.rain);setTextWhite(); break;
         }
+    }
+    public void setTextWhite(){
+        usercity.setTextColor(Color.parseColor("#FFFFFF"));
+        userdate.setTextColor(Color.parseColor("#FFFFFF"));
+        usertemperature.setTextColor(Color.parseColor("#FFFFFF"));
+        climate.setTextColor(Color.parseColor("#FFFFFF"));
+        userclimate.setTextColor(Color.parseColor("#FFFFFF"));
+        windspeed.setTextColor(Color.parseColor("#FFFFFF"));
+        userwindspeed.setTextColor(Color.parseColor("#FFFFFF"));
+        humidity.setTextColor(Color.parseColor("#FFFFFF"));
+        userhumidity.setTextColor(Color.parseColor("#FFFFFF"));
     }
 }
